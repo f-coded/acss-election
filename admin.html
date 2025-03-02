@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100 p-4">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="bg-white p-4 shadow rounded-lg mb-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold ">Admin Dashboard</h1>
+            <nav class="text-gray-600"><i class="fa fa-home"></i> Home &gt; Dashboard</nav>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+            
+            <div class="flex items-center pl-8 bg-blue-500 text-white p-4 rounded-lg">
+                <i class="fa fa-vote-yea text-6xl mr-3"></i>
+                <div>
+                    <p class="text-lg">Total Votes</p>
+                    <h2 class="text-2xl font-bold">20</h2>
+                </div>
+            </div>
+            <div class="flex items-center pl-8 bg-green-500 text-white p-4 rounded-lg">
+                <i class="fa fa-users text-6xl mr-3"></i>
+                <div>
+                    <p class="text-lg">Users Voted</p>
+                    <h2 class="text-2xl font-bold">20</h2>
+                </div>
+            </div>
+            <div class="flex items-center pl-8 bg-purple-500 text-white p-4 rounded-lg">
+                <i class="fa fa-user-tie text-7xl mr-3"></i>
+                <div>
+                    <p class="text-lg">No. of Candidates</p>
+                    <h2 class="text-2xl font-bold">20</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts & Live Leads -->
+        <!-- Chart Overview -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 pb-6">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-lg font-bold mb-4">Chart Overview</h2>
+                <label for="position" class="block text-gray-600">Filter by Position:</label>
+                <select id="position" class="w-full p-2 border rounded mt-2">
+                    <option>President</option>
+                    <option>Vice President</option> // each position should have their own canvas in summary
+                    <option>Financial Secretary</option>
+                    <option>Public Relation Officer</option>
+                    <option>Security Adviser</option>
+                    <option>Media Personnel</option>
+                </select>
+               
+                <div class="h-80">
+                    <canvas id="voteChart"></canvas>
+                </div>
+            </div>
+
+        <!-- Live Leads -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-lg font-bold mb-2 flex items-center">Live Leads <span class="text-red-500 ml-2">•</span></h2>
+            <ul class="divide-y text-sm">
+                <li class="py-2 flex justify-between">President <span>Candidate 2</span></li>
+                <li class="py-2 flex justify-between">Vice President <span>Candidate 2</span></li>
+                <li class="py-2 flex justify-between">Financial Secretary <span>Candidate 1</span></li>
+                <li class="py-2 flex justify-between">Public Relation Officer <span>Candidate 2</span></li>
+                <li class="py-2 flex justify-between">security Adviser <span>Candidate 1</span></li>
+                <li class="py-2 flex justify-between">Media Personnel <span>-</span></li>
+                <li></li>
+            </ul>
+        </div>
+        </div>
+
+        <!-- User List -->
+        <div class="bg-white p-4 rounded-lg shadow overflow-x-auto">
+            <h2 class="text-lg font-bold mb-2">User lists</h2>
+            <table class="w-full text-left text-sm">
+                <thead>
+                    <tr class="border-b">
+                        <th class="p-2">#</th>
+                        <th class="p-2">Name</th>
+                        <th class="p-2">Email</th>
+                        <th class="p-2">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b">
+                        <td class="p-2">1</td>
+                        <td class="p-2">Abdulrahmon Fawaz</td>
+                        <td class="p-2">fawaz.graphics01@gmail.com</td>
+                        <td class="p-2 text-green-500 font-bold">Voted</td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="p-2">2</td>
+                        <td class="p-2">Ola ayo</td>
+                        <td class="p-2">ayo01@gmail.com</td>
+                        <td class="p-2 text-green-500 font-bold">Voted</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+      const canvas = document.getElementById('voteChart');
+        canvas.style.height = '900px'; // Set desired height
+
+        const ctx = canvas.getContext('2d');
+        new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: ['Candidate 1', 'Candidate 2'],
+        datasets: [{
+            label: 'Votes',
+            data: [50, 14],
+            backgroundColor: ['#3b82f6', '#60a5fa']
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false, // Disable aspect ratio enforcement
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+    </script>
+</body>
+</html>

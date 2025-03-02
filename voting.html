@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting System</title>
+    <link rel="stylesheet" href="https://api.fontshare.com/css?f[]=clash-display@400,500,600,700&display=swap">
+    <link rel="stylesheet" href="src/voting.css" type="text/css">
+    <link rel="icon" href="acss logo.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <script src="https://kit.fontawesome.com/d3e501531d.js" crossorigin="anonymous"></script>
+</head>
+<body class="voting-page">
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <img src="Assets/acss full_logo.png" alt="ACSS Logo" class="logo">
+        <button class="logout-btn" onclick="location.href='signup.html'">Logout</button>
+    </nav>
+
+    <!-- Name Confirmation Modal (Only for new users) -->
+    <div class="modal" id="nameModal" style="display: none;">
+        <div class="modal-content">
+            <h2>Confirm Your Name</h2>
+            <p>Please enter your full name before proceeding.</p>
+            <input type="text" id="userNameInput" placeholder="Type your username..">
+            <button id="confirmName">Continue</button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section"> <!-- Changed class to match CSS -->
+        <div class="hello-container" id="welcomeContent" style="display: none;">
+            
+             <div class="content-bottom">
+                ACSS 2002 ALUMNI 2025 ELECTION
+            </div>
+            
+            <h1>Hello, <br><span id="userName"></span>!</h1>
+    
+            <div class="notes-container">
+                <div class="notes">
+                    <div class="notes-header">
+                        <!-- <i class="fa-solid fa-triangle-exclamation"></i> Warning!  -->
+                        <i class="fa-solid fa-circle-exclamation"></i> Voting Disclaimer
+                    </div>
+                    <ul class="notes-content">
+                        <li><strong>1️⃣ One Vote Per Person:</strong> Multiple votes from the same individual may result in disqualification.</li>
+                        <li><strong>2️⃣ Final & Irreversible:</strong> Once your vote is submitted, it cannot be changed or revoked.</li>
+                        <li><strong>3️⃣ Fair & Transparent:</strong> Ensure you are voting based on your personal choice, free from external influence or coercion.</li>
+                        <li><strong>4️⃣ Privacy & Data Protection:</strong> Your vote remains confidential, and no personal data will be shared without consent.</li>
+                        <li><strong>5️⃣ Technical Issues:</strong> If you experience any problems, refresh the page or contact support before submitting your vote.</li>
+                    </ul>
+                    <p class="notes-footer">By <strong>proceeding to Vote,</strong> you agree to these terms and conditions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="voting-section">
+        
+    </section>
+    
+<script type="module" src="src/welcome.js"></script>
+</body>
+</html>

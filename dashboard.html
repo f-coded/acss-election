@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100 p-4">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="bg-white p-4 shadow rounded-lg mb-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold">Live Results</h1>
+            <nav class="text-gray-600"><i class="fa fa-home"></i> Home &gt; Dashboard</nav>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+            <div class="flex items-center pl-8 bg-blue-500 text-white p-4 rounded-lg">
+                <i class="fa fa-vote-yea text-6xl mr-3"></i>
+                <div>
+                    <p class="text-lg">Total Votes</p>
+                    <h2 id="totalVotes" class="text-2xl font-bold">0</h2>
+                </div>
+            </div>
+            <div class="flex items-center pl-8 bg-green-500 text-white p-4 rounded-lg">
+                <i class="fa fa-users text-6xl mr-3"></i>
+                <div>
+                    <p class="text-lg">Total Users</p>
+                    <h2 id="totalUsers" class="text-2xl font-bold">0</h2>
+                </div>
+            </div>
+            <div class="flex items-center pl-8 bg-purple-500 text-white p-4 rounded-lg">
+                <i class="fa fa-user-tie text-7xl mr-3"></i>
+                <div>
+                    <p class="text-lg">No. of Candidates</p>
+                    <h2 id="numCandidates" class="text-2xl font-bold">0</h2>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- Chart Overview -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 pb-6">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-lg font-bold mb-4">Chart Overview</h2>
+                <label for="position" class="block text-gray-600">Filter by Position:</label>
+                <select id="position" class="w-full p-2 border rounded mt-2">
+                    <option value="President">President</option>
+                    <option value="Vice President">Vice President</option>
+                    <option value="Financial Secretary">Financial Secretary</option>
+                    <option value="Public Relation Officer">Public Relation Officer</option>
+                    <option value="Security Adviser">Security Adviser</option>
+                    <option value="Media Personnel">Media Personnel</option>
+                </select>
+                <div class="h-80">
+                    <canvas id="voteChart"></canvas>
+                </div>
+            </div>
+            
+
+            <!-- Live Leads -->
+            <div class="bg-white p-6 rounded-lg shadow-md"> 
+                <h2 class="text-xl font-bold mb-2 flex items-center text-red-500">
+                    Live Leads 
+                    <span class="text-red-500 ml-2 text-2xl live-dot animate-pulse glow-dot">•</span>
+                </h2>
+                <ul id="liveLeads" class="divide-y text-lg">
+                    <li class="py-2 flex justify-between">President <span class="font-semibold text-green-500">Damilola</span></li>
+                    <li class="py-2 flex justify-between">Vice President <span class="font-semibold text-green-500">Barnabas</span></li>
+                    <li class="py-2 flex justify-between">Financial Secretary <span class="font-semibold text-green-500">Henry</span></li>
+                    <li class="py-2 flex justify-between">Public Relation Officer <span class="font-semibold text-green-500">Murtala</span></li>
+                    <li class="py-2 flex justify-between">Security Adviser <span class="font-semibold text-green-500">John</span></li>
+                    <li class="py-2 flex justify-between">Media Personnel <span class="font-semibold text-green-500">David</span></li>
+                    <li></li>
+                </ul>   
+            </div>
+            
+            <style>
+                
+                .live-dot {
+                   padding: 0;
+                   position: relative;
+                   float: left;
+                   font-size: 34px; /* Increase size */
+                }
+                .glow-dot {
+                    animation: blinkGlow 1s infinite alternate;
+                }
+            
+                @keyframes blinkGlow {
+                    0% {
+                        opacity: 1;
+                        text-shadow: 0 0 5px #ff0000, 0 0 15px #ff0000;
+                    }
+                    100% {
+                        opacity: 0.3;
+                        text-shadow: none;
+                    }
+                }
+            </style>
+            
+            <!-- <div class="bg-white p-6 rounded-lg shadow-md"> 
+                <h2 class="text-xl font-bold mb-2 flex items-center text-green-500 ">Live Leads <span class="text-red-500 ml-2">•</span></h2>
+                <ul id="liveLeads" class="divide-y text-lg">
+                    <li class="py-2 flex justify-between">President <span class="font-semibold text-green-500">Damilola</span></li>
+                    <li class="py-2 flex justify-between">Vice President <span class="font-semibold text-green-500">Barnabas</span></li>
+                    <li class="py-2 flex justify-between">Financial Secretary <span class="font-semibold text-green-500">Henry</span></li>
+                    <li class="py-2 flex justify-between">Public Relation Officer <span class="font-semibold text-green-500">Murtala</span></li>
+                    <li class="py-2 flex justify-between">Security Adviser <span class="font-semibold text-green-500">John</span></li>
+                    <li class="py-2 flex justify-between">Media Personnel <span class="font-semibold text-green-500">David</span></li>
+                    <li></li>
+                </ul>   
+            </div>             -->
+        </div>
+
+        <!-- User List -->
+        <!-- <div class="bg-white p-4 rounded-lg shadow overflow-x-auto"> -->
+            <!-- <h2 class="text-lg font-bold mb-2">User lists</h2>
+            <table class="w-full text-left text-sm">
+                <thead>
+                    <tr class="border-b">
+                        <th class="p-2">#</th>
+                        <th class="p-2">Name</th>
+                        <th class="p-2">Email</th>
+                        <th class="p-2">Status</th>
+                    </tr>
+                </thead> -->
+                <div id="user-list"></div>
+            <!-- </table> -->
+        <!-- </div> -->
+    </div>
+
+    <script type="module" src="dashboard.js" defer></script>
+  
+    <script>
+        console.log("JavaScript is running!");
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const canvas = document.getElementById("voteChart");
+            const ctx = canvas.getContext("2d");
+            const positionDropdown = document.getElementById("position");
+    
+            let voteChart; // To store the chart instance
+    
+            // Original data with candidate names
+            const voteData = {
+                "President": { votes: [17, 37], candidates: ["Yakubu", "Damilola"] },
+                "Vice President": { votes: [29, 25], candidates: ["Barnabas", "Stella"] },
+                "Financial Secretary": { votes: [21, 33], candidates: ["Rosemary", "Henry"] },
+                "Public Relation Officer": { votes: [34, 20], candidates: ["Murtala", "Francis"] },
+                "Security Adviser": { votes: [31, 23], candidates: ["John", "Comfort"] },
+                "Media Personnel": { votes: [8, 46], candidates: ["Lazarus", "David"] }
+            };
+    
+            function updateChart(position) {
+                if (voteChart) {
+                    voteChart.destroy(); // Remove the previous chart
+                }
+    
+                const data = voteData[position] || { votes: [0, 0], candidates: ["Candidate 1", "Candidate 2"] };
+    
+                voteChart = new Chart(ctx, {
+                    type: "pie",
+                    data: {
+                        labels: data.candidates, // Candidate names
+                        datasets: [
+                            {
+                                label: "Votes",
+                                data: data.votes, // Corresponding votes
+                                backgroundColor: ["#3b82f6", "#47d547"]
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+            }
+    
+            // Initialize with default selection
+            updateChart(positionDropdown.value);
+    
+            // Update chart when dropdown changes
+            positionDropdown.addEventListener("change", function () {
+                updateChart(this.value);
+            });
+        });
+    </script>
+    <!-- Firebase SDK -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getDatabase, ref, set, remove, onDisconnect, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+    // 🔥 Firebase Config (Replace with yours)
+   // Firebase Config
+    const firebaseConfig = {
+        apiKey: "AIzaSyC0aP9-G9w-SsVeBIyOxxZEqMIqtHkTg9I",
+        authDomain: "acss-election.firebaseapp.com",
+        projectId: "acss-election",
+        storageBucket: "acss-election.firebasestorage.app",
+        messagingSenderId: "409244734597",
+        appId: "1:409244734597:web:aae0c4bcb3043cc64545ec"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // Generate a unique user ID
+    const userId = "user_" + Math.random().toString(36).substr(2, 9);
+    const userRef = ref(db, "activeUsers/" + userId);
+
+    // Set user as online
+    set(userRef, { active: true });
+
+    // Remove user on disconnect
+    onDisconnect(userRef).remove();
+
+    // Update active user count
+    onValue(ref(db, "activeUsers"), (snapshot) => {
+        document.getElementById("activeCount").innerText = snapshot.size || 0;
+    });
+</script>
+
+<p>Active Users: <span id="activeCount">0</span></p>
+
+      
+
+</body>
+</html>
