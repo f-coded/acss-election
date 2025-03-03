@@ -13,60 +13,68 @@ window.addEventListener("DOMContentLoaded", () => {
     const welcomeContent = document.getElementById("welcomeContent");
     const welcomeUser = document.getElementById("userName");
     const voteNowBtn = document.querySelector(".btn.primary"); // Vote Now button
-    
+    const resultsBtn = document.querySelector(".btn.secondary"); // Result Button
 
+    // Check Authentication Status
     auth.onAuthStateChanged(async (user) => {
-        if (!user) {
-            showToast("error", "Authentication Required", "Redirecting to signup page...");
-            setTimeout(() => {
-                window.location.href = "/signup";
-            }, 2000);
-            return;
-        }
-    
-        const userEmail = user.email;
-        const userRef = doc(db, "users", userEmail);
-        const userSnap = await getDoc(userRef);
-    
-        console.log("User exists:", userSnap.exists());
-        console.log("User data:", userSnap.data());
-    
-        if (!userSnap.exists() || !userSnap.data().username) {
-            console.log("No username found, showing modal...");
-            nameModal.style.display = "block";
-            welcomeContent.style.display = "none";
-            showToast("info", "Welcome!", "Please enter your name to continue.");
-        } else {
-            const storedName = userSnap.data().username;
-            console.log("Stored Name:", storedName);
-            welcomeContent.style.display = "block";
-            nameModal.style.display = "none";
-            welcomeUser.textContent = storedName;
-            showToast("success", "Welcome Back!", `Hello, ${storedName}!`);
-        }
-      
+        if (user) {
+            const userEmail = user.email; // Use email as identifier
 
-        if (voteNowBtn) {
-            voteNowBtn.style.display = "none";  
-        }
+            // Check Firestore for stored username
+            const userRef = doc(db, "newusers", userEmail);
+            const userSnap = await getDoc(userRef);
+
+            if (userSnap.exists()) {
+                const storedName = userSnap.data().username;
+
+                if (storedName) {
+                    // Show the welcome page with stored username
+                    welcomeContent.style.display = "block";
+                    nameModal.style.display = "none";
+                    welcomeUser.textContent = storedName;
+                    showToast("success", "Welcome Back!", `Hello, ${storedName}!`);
+                }
+            } else {
+                // If no username is found in Firestore, show the popup for first-time users
+                nameModal.style.display = "block";
+                welcomeContent.style.display = "none";
+                showToast("info", "Welcome!", "Please enter your name to continue.");
+            }
 
             // Check if user has already voted
-            if (voteNowBtn) {
-                const voteRef = doc(db, "votes", userEmail);
-                const voteSnap = await getDoc(voteRef);
+            const voteRef = doc(db, "newvotes", userEmail);
+            const voteSnap = await getDoc(voteRef);
 
-                if (voteSnap.exists()) {
+            if (voteSnap.exists()) {
+                // User has already voted
+                if (voteNowBtn) {
                     voteNowBtn.addEventListener("click", (event) => {
                         event.preventDefault(); // Prevent navigation
                         showToast("warning", "Already Voted!", "You have already voted. Wait for the results.");
                     });
-                   
-                    
+                }
+
+                // Enable results button since the user has voted
+                if (resultsBtn) {
+                    resultsBtn.disabled = false;
+                }
+            } else {
+                // User has NOT voted
+                if (resultsBtn) {
+                    resultsBtn.disabled = true;
+                    resultsBtn.addEventListener("click", (event) => {
+                        event.preventDefault(); // Prevent navigation
+                        showToast("warning", "Access Denied", "You need to vote first before checking results.");
+                    });
                 }
             }
+        } else {
+            showToast("error", "Authentication Required", "Redirecting to signup page...");
+            setTimeout(() => {
+                window.location.href = "/signup";
+            }, 2000);
+        }
     });
-
-    
 
     // Save Username
     confirmNameBtn.addEventListener("click", async () => {
@@ -77,7 +85,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 const userEmail = user.email;
 
                 // Save to Firebase
-                await setDoc(doc(db, "users", userEmail), { 
+                await setDoc(doc(db, "newusers", userEmail), { 
                     username: newUserName,
                     email: userEmail // Store email for reference
                 });
@@ -122,5 +130,5 @@ function showToast(type, title, text) {
 
     setTimeout(() => {
         toast.remove();
-    }, 5000); 
+    }, 9000); 
 }

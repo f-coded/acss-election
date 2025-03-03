@@ -50,23 +50,14 @@
 
                     <div class="dates">
                         <i class="fa-solid fa-circle-exclamation"></i>
-                        The Results are out already. Voting is no longer available.
+                        The voting ballot starts by 10am and will be closed by 10pm
                     </div>
                 </div>
 
-                <div class="button-group">
-                    <button id="voteNowBtn" class="btn primary">Vote Now</button>
-                    <button id="checkResultsBtn" class="btn secondary">Check Results</button>
+                <div class="button-group"> 
+                    <a href="/voting" class="btn primary">Vote Now</a>
+                    <a href="/results" class="btn secondary">Check Results</a>
                 </div>
-                <script>
-                    document.getElementById("voteNowBtn").addEventListener("click", function () {
-                        window.location.href = "/voting";
-                    });
-                
-                    document.getElementById("checkResultsBtn").addEventListener("click", function () {
-                        window.location.href = "/dashboard.html";
-                    });
-                </script>
 
             </div>
             <div class="notifications"></div> <!-- Toast Container -->

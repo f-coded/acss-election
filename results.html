@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Results</title>
+    <title>Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -44,7 +44,7 @@
 
         <!-- Chart Overview -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 pb-6">
-            <div class="bg-white p-6 rounded-lg shadow-md">
+            <!-- <div class="bg-white p-6 rounded-lg shadow-md">
                 <h2 class="text-lg font-bold mb-4">Chart Overview</h2>
                 <label for="position" class="block text-gray-600">Filter by Position:</label>
                 <select id="position" class="w-full p-2 border rounded mt-2">
@@ -58,15 +58,63 @@
                 <div class="h-80">
                     <canvas id="voteChart"></canvas>
                 </div>
-            </div>
+            </div> -->
             
 
             <!-- Live Leads -->
             <div class="bg-white p-6 rounded-lg shadow-md"> 
-                <h2 class="text-xl font-bold mb-2 flex items-center text-green-500">
+                <h2 class="text-xl font-bold mb-2 flex items-center text-red-500">
                     Live Leads 
-                    <span class="text-red-500 ml-2 animate-pulse glow-dot">•</span>
+                    <span class="text-red-500 ml-2 text-2xl live-dot animate-pulse glow-dot">•</span>
                 </h2>
+                <ul id="liveLeads" class="divide-y text-lg">
+                    <p class="infos">Stay tuned for the results.. <br> collecting datas...</p> <br>
+                    <li class="py-2 flex justify-between">Asst. General Secretary<span class="font-semibold text-green-500">---</span></li>
+                    <li></li>
+                </ul>   
+            </div>
+            
+            <style>
+
+                .infos {
+                    animation: blink 1s infinite alternate;
+                }
+
+                @keyframes blink {
+                    0% {
+                        opacity: 1;
+                        text-shadow: 0 0 5px #ebebeb, 0 0 15px #fcfcfc;
+                    }
+                    100% {
+                        opacity: 0.3;
+                        text-shadow: none;
+                    }
+                }
+                
+                .live-dot {
+                   padding: 0;
+                   position: relative;
+                   float: left;
+                   font-size: 34px; /* Increase size */
+                }
+                .glow-dot {
+                    animation: blinkGlow 1s infinite alternate;
+                }
+            
+                @keyframes blinkGlow {
+                    0% {
+                        opacity: 1;
+                        text-shadow: 0 0 5px #ff0000, 0 0 15px #ff0000;
+                    }
+                    100% {
+                        opacity: 0.3;
+                        text-shadow: none;
+                    }
+                }
+            </style>
+            
+            <!-- <div class="bg-white p-6 rounded-lg shadow-md"> 
+                <h2 class="text-xl font-bold mb-2 flex items-center text-green-500 ">Live Leads <span class="text-red-500 ml-2">•</span></h2>
                 <ul id="liveLeads" class="divide-y text-lg">
                     <li class="py-2 flex justify-between">President <span class="font-semibold text-green-500">Damilola</span></li>
                     <li class="py-2 flex justify-between">Vice President <span class="font-semibold text-green-500">Barnabas</span></li>
@@ -76,26 +124,7 @@
                     <li class="py-2 flex justify-between">Media Personnel <span class="font-semibold text-green-500">David</span></li>
                     <li></li>
                 </ul>   
-            </div>
-            
-            <style>
-                .glow-dot {
-                    animation: blinkGlow 1s infinite alternate;
-                }
-            
-                @keyframes blinkGlow {
-                    0% {
-                        opacity: 1;
-                        text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000;
-                    }
-                    100% {
-                        opacity: 0.3;
-                        text-shadow: none;
-                    }
-                }
-            </style>
-            
-            
+            </div>             -->
         </div>
 
         <!-- User List -->
@@ -115,11 +144,9 @@
         <!-- </div> -->
     </div>
 
-    <script type="module" src="dashboard.js" defer></script>
+    <script type="module" src="src/results.js" defer></script>
   
-    <script>
-        console.log("JavaScript is running!");
-    </script>
+   
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const canvas = document.getElementById("voteChart");
@@ -130,12 +157,12 @@
     
             // Original data with candidate names
             const voteData = {
-                "President": { votes: [17, 41], candidates: ["Yakubu", "Damilola"] },
-                "Vice President": { votes: [31, 27], candidates: ["Barnabas", "Stella"] },
-                "Financial Secretary": { votes: [23, 35], candidates: ["Rosemary", "Henry"] },
-                "Public Relation Officer": { votes: [33, 25], candidates: ["Murtala", "Francis"] },
-                "Security Adviser": { votes: [41, 17], candidates: ["John", "Comfort"] },
-                "Media Personnel": { votes: [8, 50], candidates: ["Lazarus", "David"] }
+                "President": { votes: [17, 37], candidates: ["Yakubu", "Damilola"] },
+                "Vice President": { votes: [29, 25], candidates: ["Barnabas", "Stella"] },
+                "Financial Secretary": { votes: [21, 33], candidates: ["Rosemary", "Henry"] },
+                "Public Relation Officer": { votes: [34, 20], candidates: ["Murtala", "Francis"] },
+                "Security Adviser": { votes: [31, 23], candidates: ["John", "Comfort"] },
+                "Media Personnel": { votes: [8, 46], candidates: ["Lazarus", "David"] }
             };
     
             function updateChart(position) {
@@ -173,7 +200,44 @@
             });
         });
     </script>
-    
+    <!-- Firebase SDK -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getDatabase, ref, set, remove, onDisconnect, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+    // 🔥 Firebase Config (Replace with yours)
+   // Firebase Config
+    const firebaseConfig = {
+        apiKey: "AIzaSyC0aP9-G9w-SsVeBIyOxxZEqMIqtHkTg9I",
+        authDomain: "acss-election.firebaseapp.com",
+        projectId: "acss-election",
+        storageBucket: "acss-election.firebasestorage.app",
+        messagingSenderId: "409244734597",
+        appId: "1:409244734597:web:aae0c4bcb3043cc64545ec"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // Generate a unique user ID
+    const userId = "user_" + Math.random().toString(36).substr(2, 9);
+    const userRef = ref(db, "activeUsers/" + userId);
+
+    // Set user as online
+    set(userRef, { active: true });
+
+    // Remove user on disconnect
+    onDisconnect(userRef).remove();
+
+    // Update active user count
+    onValue(ref(db, "activeUsers"), (snapshot) => {
+        document.getElementById("activeCount").innerText = snapshot.size || 0;
+    });
+</script>
+
+<p>Active Users: <span id="activeCount">6</span></p>
+
       
 
 </body>

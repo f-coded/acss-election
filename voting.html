@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,7 +16,7 @@
     <!-- Navbar -->
     <nav class="navbar">
         <img src="Assets/acss full_logo.png" alt="ACSS Logo" class="logo">
-        <button class="logout-btn" onclick="location.href='signup.html'">Logout</button>
+        <button class="logout-btn" onclick="location.href='signup'">Logout</button>
     </nav>
 
     <!-- Name Confirmation Modal (Only for new users) -->
@@ -47,9 +47,9 @@
                     </div>
                     <ul class="notes-content">
                         <li><strong>1️⃣ One Vote Per Person:</strong> Multiple votes from the same individual may result in disqualification.</li>
-                        <li><strong>2️⃣ Final & Irreversible:</strong> Once your vote is submitted, it cannot be changed or revoked.</li>
-                        <li><strong>3️⃣ Fair & Transparent:</strong> Ensure you are voting based on your personal choice, free from external influence or coercion.</li>
-                        <li><strong>4️⃣ Privacy & Data Protection:</strong> Your vote remains confidential, and no personal data will be shared without consent.</li>
+                        <li><strong>2️⃣ Final &amp; Irreversible: </strong> Once your vote is submitted, it cannot be changed or revoked.</li>
+                        <li><strong>3️⃣ Fair &amp; Transparent: </strong> Ensure you are voting based on your personal choice, free from external influence or coercion.</li>
+                        <li><strong>4️⃣ Privacy &amp; Data Protection: </strong> Your vote remains confidential, and no personal data will be shared without consent.</li>
                         <li><strong>5️⃣ Technical Issues:</strong> If you experience any problems, refresh the page or contact support before submitting your vote.</li>
                     </ul>
                     <p class="notes-footer">By <strong>proceeding to Vote,</strong> you agree to these terms and conditions.</p>
@@ -59,9 +59,440 @@
     </section>
     
     <section class="voting-section">
+        <style>
+            :root {
+                --accent-color: #007bff;
+                --check-color: #28a745;
+                --light-color: #f9f9f9;
+                --dark-border: #ddd;
+                --transition: 0.3s ease;
+            }
+    
+            body {
+                font-family:  -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+                
+               
+            }
+    
+            .ballot-container {
+                display: block;
+                max-width: 600px;
+                background-color: white;
+                margin: 20px auto 20px;
+                border: 1px solid var(--dark-border);
+                border-radius: 5px;
+                padding: 20px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            @media (max-width: 600px) {
+                .ballot-container {
+                    margin: 20px 30px 20px;
+                    /* width: 90%;       */
+             }
+            }
+    
+            .button-container { 
+                max-width: 600px;
+                background-color: white;
+                margin: 0 auto;
+                border: 1px solid var(--dark-border);
+                border-radius: 5px;
+                padding: 20px;
+    
+            }
+    
+    
+    
+            .header {
+              text-align: center;
+              background-color: #007bff;
+              color: white;
+              padding: 20px;
+              margin: -20px -20px 20px;
+             
+              border-radius: 5px 5px 0 0;
+            }
+
+            .header p {
+                margin-bottom: 50px;
+                display: flex;
+            }
+    
+            .instructions {
+                font-size: 16px;
+                color: black;
+                margin-top: 10px;
+                margin-bottom: 9px;
+            }
+    
+            .candidate {
+                display: flex;
+                align-items: center;
+                margin-top: 10px;
+                padding: 10px;
+                border: 2px solid var(--dark-border);
+                border-radius: 5px;
+                background-color: var(--light-color);
+                cursor: pointer;
+                transition: background-color var(--transition), border-color var(--transition);
+                position: relative;
+            }
+    
+            .candidate:hover {
+                background-color: #f1f1f1;
+            }
+    
+            .candidate img {
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                margin-right: 15px;
+            }
+    
+            .candidate input[type="radio"] {
+                display: none;
+            }
+    
+            /* Custom radio button styles */
+            .candidate-label {
+                display: flex;
+                align-items: center;
+                width: 100%;
+                cursor: pointer;
+            }
+    
+            .candidate-label::before {
+                content: "";
+                width: 20px;
+                height: 20px;
+                border: 2px solid var(--accent-color);
+                border-radius: 50%;
+                margin-right: 15px;
+                background-color: white;
+                display: inline-block;
+                transition: all var(--transition);
+            }
+    
+            /* When the radio is checked, show the green checkmark */
+            .candidate input[type="radio"]:checked + .candidate-label::before {
+                background-color: var(--check-color);
+                border-color: var(--check-color);
+                background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNS4zIDEzLjIiPiAgPHBhdGggZmlsbD0iI2ZmZiIgZD0iTTE0LjcuOGwtLjQtLjRhMS43IDEuNyAwIDAgMC0yLjMuMUw1LjIgOC4yIDMgNi40YTEuNyAxLjcgMCAwIDAtMi4zLjFMLjQgN2ExLjcgMS43IDAgMCAwIC4xIDIuM2wzLjggMy41YTEuNyAxLjcgMCAwIDAgMi40LS4xTDE1IDMuMWExLjcgMS43IDAgMCAwLS4yLTIuM3oiIGRhdGEtbmFtZT0iUGZhZCA0Ii8+PC9zdmc+');
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: 13px;
+                padding: 5px ;
+            }
+    
+            /* Smooth highlight effect */
+            /* .candidate input[type="radio"]:checked + .candidate-label {
+                background-color:;
+                border: ;
+            } */
+    
+            .candidate.selected {
+            border-color: var(--check-color);
+            background-color: #f0f8ff;
+            }
+    
+            .list-group {
+                    display: block;
+                    border-radius: .25rem;
+                    border: 1px solid var(--accent-color);
+                    padding: 10px;
+                    padding-left: 15px;
+                    margin-top: 0;
+                }
+    
+                em {
+                    text-align: center;
+                    color: white;
+                    font-style: normal;
+                    display: inline-block;
+                    padding: .3rem .5rem;
+                    background: #007bff;
+                    font-size: 85%;
+                    line-height: 1;
+                    border-radius: .25rem;
+                    vertical-align: bottom;
+                    white-space: nowrap;
+                    font-weight: 700;
+                    margin: 0 2px;
+                }
+        </style> 
+
+        <!-------President Section--------------->
+        <!-- <div class="ballot-container" id="president">
+            <div class="header">
+                <h2>PRESIDENT</h2>
+            </div>
+            <p style="font-size: 18px;">Select your preferred candidate below:</p>
+            <p class="instructions"><strong>INSTRUCTIONS:</strong> 
+            <div class="list-group"> Select 
+                <em>1</em> option from the list below. 
+                <small class="text-danger-required" style="color: red;">* Required</small>
+            </div></p>
+    
+            <div class="candidate" onclick="selectCandidate(this, 'president')">
+                <input type="radio" id="president1" name="President">
+                <label for="president1" class="candidate-label">
+                    <img src="Assets/acss logo.png" alt="Candidate 1">
+                    <strong> Candidate 1 </strong>
+                </label>
+                <span class="info-icon">&#9432;</span>
+            </div>
+    
+            <div class="candidate" onclick="selectCandidate(this, 'president')">
+                <input type="radio" id="president2" name="President">
+                <label for="president2" class="candidate-label">
+                    <img src="Assets/acss logo.png" alt="Candidate 2">
+                    <strong> Candidate 2 </strong>
+                </label>
+                <span class="info-icon">&#9432;</span>
+            </div>
+    
+        </div> -->
+    
+        <!-------Vice President Section--------------->
+        <!-- <div class="ballot-container" id="vicePresident">
+            <div class="header">
+                <h2> VICE PRESIDENT</h2>
+            </div>
+            <p style="font-size: 18px;">Select your preferred candidate below:</p>
+            <p class="instructions"><strong>INSTRUCTIONS:</strong> 
+            <div class="list-group"> Select 
+                <em>1</em> option from the list below. 
+                <small class="text-danger-required" style="color: red;">* Required</small>
+            </div></p>
+    i
+            <div class="candidate" onclick="selectCandidate(this, 'vicePresident')">
+                <input type="radio" id="vp1" name="Vice President">
+                <label for="vp1" class="candidate-label">
+                    <img src="Assets/acss logo.png" alt="Candidate 1">
+                    <strong> Candidate 1 </strong>
+                </label>
+                <span class="info-icon">&#9432;</span>
+            </div>
+    
+            <div class="candidate" onclick="selectCandidate(this, 'vicePresident')">
+                <input type="radio" id="vp2" name="Vice President">
+                <label for="vp2" class="candidate-label">
+                    <img src="Assets/acss logo.png" alt="Candidate 2">
+                    <strong> Candidate 2 </strong>
+                </label>
+                <span class="info-icon">&#9432;</span>
+            </div>
+        </div> -->
+    
+        <!-------General Secretary Section--------------->
+        <!-- <div class="ballot-container" id="gen_Secretary">
+            <div class="header">
+                <h2> GENERAL SECRETARY </h2>
+            </div>
+            <p style="font-size: 18px;">Select your preferred candidate below:</p>
+            <p class="instructions"><strong>INSTRUCTIONS:</strong> 
+            <div class="list-group"> Select 
+                <em>1</em> option from the list below. 
+               
+                <small class="text-danger-required" style="color: red;">* Required</small>
+            </div></p>
+    
+            <div class="candidate" onclick="selectCandidate(this, 'gen_Secretary')">
+                <input type="radio" id="gen_Sec_1" name="General Secretary">
+                <label for="gen_Sec_1" class="candidate-label">
+                    <img src="Assets/acss logo.png" alt="Candidate 1">
+                    <strong> Candidate 1 </strong>
+                </label>
+                <span class="info-icon">&#9432;</span>
+            </div>
+    
+            <div class="candidate" onclick="selectCandidate(this, 'gen_Secretary')">
+                <input type="radio" id="gen_Sec_2" name="General Secretary">
+                <label for="gen_Sec_2" class="candidate-label">
+                    <img src="Assets/acss logo.png" alt="Candidate 1">
+                    <strong> Candidate 2 </strong>
+                </label>
+                <span class="info-icon">&#9432;</span>
+            </div>
+        </div>     -->
+    
+        <!----Asst. general Secretary--->
+        <div class="ballot-container" id="asstSec">
+            <div class="header">
+                <h2> ASST. GENERAL SECRETARY </h2>
+            </div>
+            <p style="font-size: 18px;">Select your preferred candidate below:</p>
+            <p class="instructions"><strong>INSTRUCTIONS:</strong> 
+            <div class="list-group"> Select 
+                <em>1</em> option from the list below. 
+                <small class="text-danger-required" style="color: red;">* Required</small>
+            </div></p>
+    
+            <div class="candidate" onclick="selectCandidate(this, 'asstSec')">
+                <input type="radio" id="asst_sec1" name="Asst. Gen. Secretary">
+                <label for="asst_sec1" class="candidate-label">
+                    <img src="Assets/stella.png" alt="Candidate 1">
+                    <strong> Stella </strong>
+                </label>
+                <span class="info-icon">&#9432;</span>
+            </div>
+    
+            <div class="candidate" onclick="selectCandidate(this, 'asstSec')">
+                <input type="radio" id="asst_sec2" name="Asst. Gen. Secretary">
+                <label for="asst_sec2" class="candidate-label">
+                    <img src="Assets/osuyak.png" alt="Candidate 2">
+                    <strong> Francis </strong>
+                </label>
+                <span class="info-icon">&#9432;</span>
+            </div>
+        </div>
+    
+   
+    
+        <!----Media Personnel--->
+        <!-- <div class="ballot-container" id="media_personnel">
+            <div class="header">
+                <h2>MEDIA PERSONNEL</h2>
+            </div>
+            <p style="font-size: 18px;">Select your preferred candidate below:</p>
+            <p class="instructions"><strong>INSTRUCTIONS:</strong> 
+            <div class="list-group"> Select 
+                <em>1</em> option from the list below. 
+                
+                <small class="text-danger-required" style="color: red;">* Required</small>
+            </div></p>
+    
+            <div class="candidate" onclick="selectCandidate(this, 'media_personnel')">
+                <input type="radio" id="media1" name="Media Personnel">
+                <label for="media1" class="candidate-label">
+                    <img src="Assets/acss logo.png" alt="Candidate 1">
+                    <strong> Candidate 1 </strong>
+                </label>
+                <span class="info-icon">&#9432;</span>
+            </div>
+    
+            <div class="candidate" onclick="selectCandidate(this, 'media_personnel')">
+                <input type="radio" id="media2" name="Media Personnel">
+                <label for="media2" class="candidate-label">
+                    <img src="Assets/acss logo.png" alt="Candidate 2">
+                    <strong> Candidate 2 </strong>
+                </label>
+                <span class="info-icon">&#9432;</span>
+            </div>
+        </div> -->
         
+        <div class="notifications"></div> <!-- Toast Container -->
+    
+        <!-- buttons to submit -->
+        <div class="button-container">
+            <button type="button" id="submitVotes" class="submit-btn" 
+                    onclick="submitVotes()"
+                    style="padding: 15px;
+                           width: 100%;
+                           display: block;
+                           font-size: 18px; 
+                           background-color: var(--check-color); 
+                           color: white; 
+                           border: none; 
+                           border-radius: 5px; 
+                           cursor: pointer;">
+                Submit Votes
+            </button>
+        </div>
+        
+        <!-- Pop-up for confirmation -->
+        <div id="popup" style="display: none; 
+                               position: fixed; 
+                               top: 50%; 
+                               left: 50%; 
+                               transform: translate(-50%, -50%); 
+                               padding: 20px; 
+                               background: white; 
+                               border: 2px solid #ccc; 
+                               border-radius: 10px; 
+                               z-index: 1000;">
+            <p>Are you sure you want to submit your votes? Once submitted, you cannot change them.</p>
+            <button onclick="confirmSubmission()">OK</button>
+            <button onclick="closePopup()">Cancel</button>
+        </div>
+        
+        <script>
+            // Firestore initialization (Ensure Firebase is properly configured in your project)
+            // Firestore initialization (Ensure Firebase is properly configured in your project)
+            const db = firebase.firestore();
+            const auth = firebase.auth(); // In case we need authentication
+
+            // Get current user (assuming they are logged in)
+            let userEmail = ""; // Placeholder
+
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    userEmail = user.email; // Store user email
+                } else {
+                    alert("You must be signed in to vote.");
+                    window.location.href = "/login";
+                }
+            });
+
+            const positions = ["Auditor", "Media Personnel"]; // List all positions
+
+            function submitVotes() {
+                let unselectedPositions = [];
+                
+                positions.forEach(position => {
+                    const selectedCandidate = document.querySelector(`input[name='${position}']:checked`);
+                    if (!selectedCandidate) {
+                        unselectedPositions.push(position);
+                    }
+                });
+
+                if (unselectedPositions.length > 0) {
+                    alert("Please select a candidate for: " + unselectedPositions.join(", "));
+                } else {
+                    document.getElementById('popup').style.display = 'block';
+                }
+            }
+
+            function confirmSubmission() {
+                document.getElementById('popup').style.display = 'none';
+                storeVotes(); // Save votes to Firestore
+            }
+
+            function storeVotes() {
+                const votes = {};
+
+                positions.forEach(position => {
+                    const selectedCandidate = document.querySelector(`input[name='${position}']:checked`);
+                    if (selectedCandidate) {
+                        votes[position] = selectedCandidate.id; // Store candidate ID
+                    }
+                });
+
+                if (userEmail) {
+                    db.collection("votes").doc(userEmail).set(votes)
+                        .then(() => {
+                            alert("Your votes have been submitted successfully.");
+                            window.location.href = '/welcome';
+                        })
+                        .catch(error => {
+                            console.error("Error submitting votes: ", error);
+                            alert("An error occurred. Please try again.");
+                        });
+                } else {
+                    alert("Error: Unable to retrieve user email.");
+                }
+            }
+
+            function closePopup() {
+                document.getElementById('popup').style.display = 'none';
+            }
+
+        </script>
+
     </section>
     
-<script type="module" src="src/welcome.js"></script>
-</body>
+    <script type="module" src="src/newvotes.js"></script>
+    <!-- <script type="module" src="src/voting.js"></script> -->
+    </body>
 </html>
